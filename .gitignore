@@ -1,0 +1,36 @@
+# ---- Dependencies ----
+node_modules/
+.pnpm-store/
+
+# ---- Secrets (NEVER commit) ----
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ---- Build output ----
+dist/
+build/
+*.tsbuildinfo
+
+# ---- Runtime data (local ChromaDB, uploads, memories, metrics) ----
+packages/server/data/
+
+# ---- Model cache (large ONNX weights, re-downloaded on first run) ----
+packages/server/models_cache/
+
+# ---- Logs ----
+logs/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Agent lock files ----
+.claude/scheduled_tasks.lock

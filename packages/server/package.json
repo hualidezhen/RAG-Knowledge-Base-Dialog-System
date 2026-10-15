@@ -1,0 +1,44 @@
+{
+  "name": "@rag-knowledge-base/server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "predev": "node -e \"const{execSync}=require('child_process');try{const r=execSync('netstat -ano|findstr :3001',{encoding:'utf8',shell:'cmd.exe'});r.split(/[\\r\\n]+/).forEach(l=>{if(!l.includes('LISTENING'))return;const p=l.trim().split(/\\s+/);const pid=p[p.length-1];if(pid&&pid!=='0')try{process.kill(parseInt(pid))}catch(e){}})}catch(e){}\"",
+    "dev": "nodemon --ignore data/ --ignore ../client/ --exec ts-node src/index.ts",
+    "chroma:start": "cmd /c \"C:\\Program Files\\Python312\\Scripts\\chroma.exe\" run --path ./data/chroma",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "evaluate": "ts-node src/evaluation/evaluator.ts",
+    "evaluate:agent": "ts-node src/evaluation/agentEvaluator.ts",
+    "test:integration": "ts-node src/evaluation/integrationTest.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@langchain/community": "^0.3.0",
+    "@langchain/core": "^0.3.0",
+    "@xenova/transformers": "^2.17.2",
+    "chromadb": "^1.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.0",
+    "langchain": "^0.3.0",
+    "mammoth": "^1.8.0",
+    "multer": "^1.4.5-lts.1",
+    "natural": "^8.1.1",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/multer": "^1.4.12",
+    "@types/supertest": "^7.2.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^7.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.4"
+  }
+}

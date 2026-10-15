@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  chromadb:
+    image: chromadb/chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8000/api/v2/heartbeat > /dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  server:
+    build:
+      context: ./packages/server
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./packages/server/.env
+    environment:
+      - CHROMA_URL=http://chromadb:8000
+    depends_on:
+      chromadb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./packages/client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  chroma_data:

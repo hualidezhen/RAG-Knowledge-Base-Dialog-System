@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "chromadb": "^3.4.3",
+    "install": "^0.13.0"
+  }
+}
